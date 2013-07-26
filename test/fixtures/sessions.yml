@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  start: 2013-07-25 20:46:55
+  end: 2013-07-25 20:46:55
+  idle: 1
+  user_id: 1
+
+two:
+  start: 2013-07-25 20:46:55
+  end: 2013-07-25 20:46:55
+  idle: 1
+  user_id: 1
