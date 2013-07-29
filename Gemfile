@@ -32,6 +32,19 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :development, :test do
+	gem 'rspec-rails'
+	gem 'shoulda-matchers'
+	gem 'simplecov'
+	gem 'fuubar'
+	gem 'launchy'
+	gem 'better_errors'
+	gem 'binding_of_caller'
+	gem 'meta_request'
+	gem 'fabrication'
+	gem 'guard-rspec'
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -43,3 +56,5 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'nokogiri'
