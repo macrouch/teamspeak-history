@@ -6,7 +6,6 @@ describe Session do
 	end
 
 	it { should validate_presence_of :login }
-	it { should validate_presence_of :logout }
 	it { should validate_presence_of :idle }
 	it { should belong_to :user }
 end

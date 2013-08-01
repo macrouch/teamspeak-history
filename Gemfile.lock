@@ -51,6 +51,9 @@ GEM
     fabrication (2.7.2)
     ffi (1.9.0)
     ffi (1.9.0-x86-mingw32)
+    figaro (0.6.4)
+      bundler (~> 1.0)
+      rails (>= 3, < 5)
     formatador (0.2.4)
     fuubar (1.1.1)
       rspec (~> 2.0)
@@ -200,6 +203,7 @@ DEPENDENCIES
   binding_of_caller
   coffee-rails (~> 4.0.0)
   fabrication
+  figaro
   fuubar
   guard-rspec
   jbuilder (~> 1.2)
