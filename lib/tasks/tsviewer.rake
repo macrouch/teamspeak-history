@@ -21,6 +21,7 @@ namespace :ts do
 				old = true
 			end
 
+			# if they logged out more than a couple of days ago, don't do anything
 			unless old
 
 				# Find the user name
@@ -51,11 +52,26 @@ namespace :ts do
 								(time[1].to_i * 60)	+ 
 								(time[2].to_i)
 
-				# Had to do login_time.strftime('%Y-%m-%d %H:%M:%S.000000') in order to properly find a session from the database
-				session = Session.where(login: login_time.strftime('%Y-%m-%d %H:%M:%S.000000'), user: user).first_or_create
+				# Find the session, or create a new one
+				previous_session = Session.where(user: user).order("login desc").first
+				session = nil
+				if previous_session
+					# if the previous session is the current session
+					if previous_session.login == login_time						
+						session = previous_session
+					else
+						# if previous session is not current session
+						# close previous session and start a new session
+						previous_session.logout = login_time
+						previous_session.save
+						session = Session.new(login: login, user: user)
+					end
+				else # no previous sessions
+					session = Session.new(login: login, user: user)
+				end
 				session.idle = idle
 
-
+				# dont do anything if the session was already closed
 				unless session.closed?
 					if logout.include?('online')
 						session.logout = nil
@@ -64,8 +80,11 @@ namespace :ts do
 					end
 					session.save
 				end
+
+				# add the channel to the session unless it is already there
 				session.channels << channel unless session.channels.include?(channel)
-			end
-		end
-	end
-end
+
+			end # end unless old
+		end # end userlist loop
+	end # end task :import
+end # end namespace
