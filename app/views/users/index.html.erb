@@ -5,8 +5,8 @@
 	<ul>
 		<li><%= "#{(i+1).to_s}.   #{user.name}" %></li>
 		<ul>
-			<% user.sessions.each do |session| %>
-			<li><%= "#{session.login}, #{session.logout}" %></li>
+			<% user.sessions.each_with_index do |session, i| %>
+			<li><%= "#{i+1}. #{session.login.localtime}, #{session.logout.localtime if session.logout}" %></li>
 				<ul>
 					<% session.channels.each do |channel| %>
 					<li><%= channel.name.to_s %></li>

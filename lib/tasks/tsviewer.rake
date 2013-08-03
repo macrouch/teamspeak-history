@@ -12,11 +12,11 @@ namespace :ts do
 			logout_time = nil
 			old = false
 			today = DateTime.now
-			time = logout.split(' ')[1]
+			time = logout.split(' ')[1].split(':')
 			if logout.include?('online') || logout.include?('today')
-				logout_time = DateTime.new(today.year, today.month, today.day, time[0].to_i, time[1].to_i, 00)
+				logout_time = DateTime.new(today.year, today.month, today.day, time[0].to_i, time[1].to_i, 00, '+0100').in_time_zone
 			elsif logout.include?('yesterday')
-				logout_time = DateTime.new(today.year, today.month, 1.day.ago.day, time[0].to_i, time[1].to_i, 00)
+				logout_time = DateTime.new(today.year, today.month, 1.day.ago.day, time[0].to_i, time[1].to_i, 00, '+0100').in_time_zone
 			else # if the session ended before 'yesterday', we don't care about it anymore
 				old = true
 			end
@@ -39,7 +39,7 @@ namespace :ts do
 				login_days_ago = login_ago.split('D')[0].to_i
 				login = d.css('div.uhist_list_time_connect').inner_text
 				time = login.split(' ')[1].split(':')
-				login_time = DateTime.new(today.year, today.month, login_days_ago.days.ago.day, time[0].to_i, time[1].to_i, 00)
+				login_time = DateTime.new(today.year, today.month, login_days_ago.days.ago.day, time[0].to_i, time[1].to_i, 00, '+0100').in_time_zone
 
 				# Find idle time in seconds "0D 00:41:24" -> 2484
 				idle = d.css('div.uhist_list_nick_reg span').inner_text.split('Idletime: ')[1]
@@ -53,21 +53,23 @@ namespace :ts do
 								(time[2].to_i)
 
 				# Find the session, or create a new one
-				previous_session = Session.where(user: user).order("login desc").first
+				previous_session = user.sessions.order("login desc").first
 				session = nil
 				if previous_session
 					# if the previous session is the current session
-					if previous_session.login == login_time						
+					if previous_session.login.strftime('%Y-%m-%d %H:%M:%S') == login_time.strftime('%Y-%m-%d %H:%M:%S')
 						session = previous_session
 					else
 						# if previous session is not current session
 						# close previous session and start a new session
-						previous_session.logout = login_time
-						previous_session.save
-						session = Session.new(login: login, user: user)
+						unless previous_session.closed?
+							previous_session.logout = login_time
+							previous_session.save
+						end
+						session = Session.new(login: login_time, user: user)
 					end
 				else # no previous sessions
-					session = Session.new(login: login, user: user)
+					session = Session.new(login: login_time, user: user)
 				end
 				session.idle = idle
 
