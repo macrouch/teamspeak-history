@@ -19,7 +19,7 @@ class Session < ActiveRecord::Base
 			logout = d.css('div.uhist_list_time').inner_text.downcase
 			logout_time = nil
 			old = false
-			today = DateTime.now
+			today = DateTime.now(0100) # Now in +0100 (Germany)(Where tsviewer is located)
 			time = logout.split(' ')[1].split(':')
 			if logout.include?('online') || logout.include?('today')
 				logout_time = DateTime.new(today.year, today.month, today.day, time[0].to_i, time[1].to_i, 00, '+0100').in_time_zone
@@ -47,7 +47,7 @@ class Session < ActiveRecord::Base
 				login_days_ago = login_ago.split('D')[0].to_i
 				login = d.css('div.uhist_list_time_connect').inner_text
 				time = login.split(' ')[1].split(':')
-				login_time = DateTime.new(today.year, today.month, login_days_ago.days.ago.day, time[0].to_i, time[1].to_i, 00, '+0100').in_time_zone
+				login_time = (DateTime.new(today.year, today.month, today.day, time[0].to_i, time[1].to_i, 00, '+0100') - login_days_ago.days).in_time_zone
 
 				# Find idle time in seconds "0D 00:41:24" -> 2484
 				idle = d.css('div.uhist_list_nick_reg span').inner_text.split('Idletime: ')[1]
