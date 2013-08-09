@@ -18,6 +18,10 @@ describe Session do
 		Nokogiri::HTML("<div class='uhist_list_time'><strong><font color='#c80007'>#{day}</font></strong>, #{time}</div>")
 	end
 
+	def idle_css(time)
+		Nokogiri::HTML("<span>Logintime: 0D 00:29:38, Idletime: #{time}</span>")
+	end
+
 	it "is valid with valid attributes" do
 		Fabricate(:session).should be_valid
 	end
@@ -34,6 +38,11 @@ describe Session do
 	it "selects channel correctly" do
 		channel = Session.channel_from_css(channel_css("Channel 1"))
 		channel.should be_valid
+	end
+
+	it "converts idle time correctly" do
+		idle = Session.idle_from_css(idle_css("0D 00:41:24"))
+		idle.should eq(2484)
 	end
 
 	it "converts times correctly"	do
@@ -116,7 +125,7 @@ describe Session do
 	end
 
 	it "converts logout correctly"	do
-		time = Time.now.in_time_zone(1)
+		time = DateTime.now.in_time_zone(1)
 		today = time.strftime("%Y-%m-%d")
 		tomorrow = (time + 1.day).strftime("%Y-%m-%d")
 		yesterday = (time - 1.days).strftime("%Y-%m-%d")
@@ -156,5 +165,26 @@ describe Session do
 		logout_time.to_s.should eq("#{today} 00:00:00 UTC")
 		logout, logout_time = Session.logout_from_css(logout_css("Yesterday","02:00"))
 		logout_time.to_s.should eq("#{yesterday} 00:00:00 UTC")
+	end
+
+	it "should enforce unique logins per user" do
+		user = User.create(name: "User 1")
+		channel = Channel.create(name: "Channel 1")
+
+		time = DateTime.now.in_time_zone(1)
+		logout = (time + (7 - time.hour).hours + (12 - time.minute).minutes + (0 - time.second).seconds).in_time_zone
+		css = login_css("0D 01:00:00", "06:37")
+		login = Session.login_from_css(css[0], css[1], logout)
+		idle = 42
+
+		session = Session.create(user: user, login: login, logout: logout, idle: idle)
+		session.should be_valid
+		Session.count.should eq(1)
+
+
+		session2 = Session.create(user: user, login: login, logout: logout, idle: idle)
+		session2.should_not be_valid
+		session2.errors[:login].should include("has to be unique per user")
+		Session.count.should eq(1)
 	end
 end

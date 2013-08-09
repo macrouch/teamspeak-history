@@ -40,7 +40,9 @@ class Session < ActiveRecord::Base
 				session = nil
 				if previous_session
 					# if the previous session is the current session
-					if previous_session.login.strftime('%Y-%m-%d %H:%M:%S') == login_time.strftime('%Y-%m-%d %H:%M:%S')
+					# sometimes the seconds would be off from my conversions. 
+					# the quick solution is don't compare seconds since I don't care about them
+					if previous_session.login.strftime('%Y-%m-%d %H:%M') == login_time.strftime('%Y-%m-%d %H:%M')
 						session = previous_session
 					else
 						# if previous session is not current session
