@@ -31,6 +31,7 @@ after "deploy:restart", "deploy:cleanup"
 before "deploy:migrate", "shared:database"
 after "deploy:update_code", "deploy:migrate"
 after "deploy:update_code", "whenever:update_crontab"
+before "deploy:restart", "deploy:symlink_shared"
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
@@ -41,6 +42,10 @@ namespace :deploy do
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+  end
+
+  task :symlink_shared do
+  	run "ln -s #{shared_path}/application.yml #{release_path}/config/"
   end
 end
 
