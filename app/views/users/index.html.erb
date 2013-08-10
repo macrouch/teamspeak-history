@@ -1,18 +1,39 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<h1 class="header">TeamSpeak History</h1>
 
-<% @users.each_with_index do |user, i| %>
-	<ul>
-		<li><%= "#{(i+1).to_s}.   #{user.name}" %></li>
-		<ul>
-			<% user.sessions.each_with_index do |session, i| %>
-			<li><%= "#{i+1}. #{session.login.localtime}, #{session.logout.localtime if session.logout}" %></li>
-				<ul>
-					<% session.channels.each do |channel| %>
-					<li><%= channel.name.to_s %></li>
-					<% end %>
-				</ul>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-4 column_header">
+			<h2>Users</h2>
+		</div>
+
+		<div class="col-lg-4 column_header">
+			<h2>Sessions</h2>
+			<h4><%= @user.name if @user %></h4>
+		</div>
+
+		<div class="col-lg-4 column_header">
+			<h2>Channels</h2>
+			<h4><%= "#{@session.login.localtime.strftime("%b %-d %H:%M")} -- #{@session.logout.localtime.strftime("%b %-d %H:%M") if @session.logout}" if @session %></h4>
+		</div>
+	</div>
+
+	<div class="row lists">
+		<div class="users col-lg-4">
+			<% @users.each do |user| %>
+				<p><%= link_to user.name, home_path(user_id: user.id) %></p>
 			<% end %>
-		</ul>
-	</ul>
-<% end %>
+		</div>
+
+		<div class="sessions col-lg-4">
+			<% @sessions.each do |session| %>
+				<p><%= link_to "#{session.login.localtime.strftime("%b %-d %H:%M")} -- #{session.logout.localtime.strftime("%b %-d %H:%M") if session.logout}", home_path(user_id: params[:user_id], session_id: session.id) %></p>
+			<% end %>
+		</div>
+
+		<div class="channels col-lg-4">
+			<% @channels.each do |channel| %>
+				<p><%= channel.name %></p>
+			<% end %>
+		</div>
+	</div>
+</div>

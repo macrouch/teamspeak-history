@@ -1,5 +1,5 @@
 TeamspeakHistory::Application.routes.draw do
-  get "users/index"
+  get "users/index", as: 'home'
 
   root 'users#index'
   # The priority is based upon order of creation: first created -> highest priority.
