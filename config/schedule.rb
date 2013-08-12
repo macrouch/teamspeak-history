@@ -19,7 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :output, '/Users/matthew/whenever.log'
+set :output, 'log/cron.log'
 
 every '*/10 * * * *' do
 	rake "ts:import"
