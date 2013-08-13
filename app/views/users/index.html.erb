@@ -26,7 +26,11 @@
 
 		<div class="sessions col-lg-4">
 			<% @sessions.each do |session| %>
-				<p><%= link_to "#{session.login.localtime.strftime("%b %-d %H:%M")} -- #{session.logout.localtime.strftime("%b %-d %H:%M") if session.logout}", home_path(user_id: params[:user_id], session_id: session.id) %></p>
+				<%= link_to "#{session.login.localtime.strftime("%b %-d %H:%M")} -- #{session.logout.localtime.strftime("%b %-d %H:%M") if session.logout}", home_path(user_id: params[:user_id], session_id: session.id) %>
+					
+				<ul>
+					<li>Idle time: <%= session.idle_time %></li>
+				</ul>
 			<% end %>
 		</div>
 

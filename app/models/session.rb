@@ -10,6 +10,13 @@ class Session < ActiveRecord::Base
 		logout != nil
 	end
 
+	def idle_time
+		minutes, seconds = idle.divmod(60)
+		hours, minutes = minutes.divmod(60)
+		days, hours = hours.divmod(24)
+		"%dD %02d:%02d:%02d" %[days, hours, minutes, seconds]
+	end
+
 	def self.import
 		server_id = ENV["TS_SERVER_ID"]
 		doc = Nokogiri::HTML(open("http://www.tsviewer.com/index.php?page=userhistory&ID=#{server_id}&site=1&limit=1000"))
