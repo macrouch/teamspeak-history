@@ -22,5 +22,5 @@
 set :output, 'log/cron.log'
 
 every '*/10 * * * *' do
-	rake "ts:import"
+  rake "ts:import"
 end

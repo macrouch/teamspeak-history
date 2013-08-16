@@ -1,5 +1,5 @@
 class Channel < ActiveRecord::Base
-	has_and_belongs_to_many :sessions
+  has_and_belongs_to_many :sessions
 
-	 validates :name, presence: true
+   validates :name, presence: true
 end

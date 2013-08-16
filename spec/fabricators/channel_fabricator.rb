@@ -1,3 +1,3 @@
 Fabricator(:channel) do
-	name "Room 1"
+  name "Room 1"
 end

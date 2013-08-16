@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-	has_many :sessions
+  has_many :sessions
 
-	validates :name, presence: true
+  validates :name, presence: true
 end

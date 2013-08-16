@@ -1,43 +1,43 @@
 <h1 class="header">TeamSpeak History</h1>
 
 <div class="container">
-	<div class="row">
-		<div class="col-lg-4 column_header">
-			<h2>Users</h2>
-		</div>
+  <div class="row">
+    <div class="col-lg-4 column_header">
+      <h2>Users</h2>
+    </div>
 
-		<div class="col-lg-4 column_header">
-			<h2>Sessions</h2>
-			<h4><%= @user.name if @user %></h4>
-		</div>
+    <div class="col-lg-4 column_header">
+      <h2>Sessions</h2>
+      <h4><%= @user.name if @user %></h4>
+    </div>
 
-		<div class="col-lg-4 column_header">
-			<h2>Channels</h2>
-			<h4><%= "#{@session.login.localtime.strftime("%b %-d %H:%M")} -- #{@session.logout.localtime.strftime("%b %-d %H:%M") if @session.logout}" if @session %></h4>
-		</div>
-	</div>
+    <div class="col-lg-4 column_header">
+      <h2>Channels</h2>
+      <h4><%= "#{@session.login.localtime.strftime("%b %-d %H:%M")} -- #{@session.logout.localtime.strftime("%b %-d %H:%M") if @session.logout}" if @session %></h4>
+    </div>
+  </div>
 
-	<div class="row lists">
-		<div class="users col-lg-4">
-			<% @users.each do |user| %>
-				<p><%= link_to user.name, home_path(user_id: user.id) %></p>
-			<% end %>
-		</div>
+  <div class="row lists">
+    <div class="users col-lg-4">
+      <% @users.each do |user| %>
+        <p><%= link_to user.name, home_path(user_id: user.id) %></p>
+      <% end %>
+    </div>
 
-		<div class="sessions col-lg-4">
-			<% @sessions.each do |session| %>
-				<%= link_to "#{session.login.localtime.strftime("%b %-d %H:%M")} -- #{session.logout.localtime.strftime("%b %-d %H:%M") if session.logout}", home_path(user_id: params[:user_id], session_id: session.id) %>
-					
-				<ul>
-					<li>Idle time: <%= session.idle_time %></li>
-				</ul>
-			<% end %>
-		</div>
+    <div class="sessions col-lg-4">
+      <% @sessions.each do |session| %>
+        <%= link_to "#{session.login.localtime.strftime("%b %-d %H:%M")} -- #{session.logout.localtime.strftime("%b %-d %H:%M") if session.logout}", home_path(user_id: params[:user_id], session_id: session.id) %>
+          
+        <ul>
+          <li>Idle time: <%= session.idle_time %></li>
+        </ul>
+      <% end %>
+    </div>
 
-		<div class="channels col-lg-4">
-			<% @channels.each do |channel| %>
-				<p><%= channel.name %></p>
-			<% end %>
-		</div>
-	</div>
+    <div class="channels col-lg-4">
+      <% @channels.each do |channel| %>
+        <p><%= channel.name %></p>
+      <% end %>
+    </div>
+  </div>
 </div>

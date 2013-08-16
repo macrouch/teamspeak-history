@@ -3,8 +3,8 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 #$ ->
-#	resizePage = ->
-#		alert('Page resized')
+# resizePage = ->
+#   alert('Page resized')
 #
 #$(window).resize ->
-#	resizePage()
+# resizePage()
