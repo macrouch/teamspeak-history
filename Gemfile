@@ -60,3 +60,4 @@ end
 gem 'nokogiri'
 gem 'figaro'
 gem 'whenever'
+gem 'tzinfo'

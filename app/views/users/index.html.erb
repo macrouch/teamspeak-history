@@ -2,18 +2,18 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-4 column_header">
+    <div class="col-lg-4">
       <h2>Users</h2>
     </div>
 
-    <div class="col-lg-4 column_header">
+    <div class="col-lg-4">
       <h2>Sessions</h2>
       <h4><%= @user.name if @user %></h4>
     </div>
 
-    <div class="col-lg-4 column_header">
+    <div class="col-lg-4">
       <h2>Channels</h2>
-      <h4><%= "#{@session.login.localtime.strftime("%b %-d %H:%M")} -- #{@session.logout.localtime.strftime("%b %-d %H:%M") if @session.logout}" if @session %></h4>
+      <h4><%= "#{display_time(@session.login)} -- #{display_time(@session.logout) if @session.logout}" if @session %></h4>
     </div>
   </div>
 
@@ -26,7 +26,7 @@
 
     <div class="sessions col-lg-4">
       <% @sessions.each do |session| %>
-        <%= link_to "#{session.login.localtime.strftime("%b %-d %H:%M")} -- #{session.logout.localtime.strftime("%b %-d %H:%M") if session.logout}", home_path(user_id: params[:user_id], session_id: session.id) %>
+        <%= link_to "#{display_time(session.login)} -- #{display_time(session.logout) if session.logout}", home_path(user_id: params[:user_id], session_id: session.id) %>
           
         <ul>
           <li>Idle time: <%= session.idle_time %></li>

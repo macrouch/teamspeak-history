@@ -229,5 +229,6 @@ DEPENDENCIES
   sqlite3
   therubyracer
   turbolinks
+  tzinfo
   uglifier (>= 1.3.0)
   whenever
