@@ -66,14 +66,16 @@ class Session < ActiveRecord::Base
         session.idle = idle
 
         # dont do anything if the session was already closed
-        unless session.closed?
+        if session.closed?
+          session.logout = logout_time
+        else
           if logout.include?('online')
             session.logout = nil
           else
             session.logout = logout_time
           end
-          session.save
         end
+        session.save
 
         # add the channel to the session unless it is already there
         session.channels << channel unless session.channels.include?(channel)
