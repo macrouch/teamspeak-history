@@ -18,3 +18,5 @@
 coverage
 # Ignore application configuration
 /config/application.yml
+
+.DS_Store

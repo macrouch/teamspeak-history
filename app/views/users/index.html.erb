@@ -2,29 +2,29 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-4">
+    <div class="span4">
       <h2>Users</h2>
     </div>
 
-    <div class="col-lg-4">
+    <div class="span4">
       <h2>Sessions</h2>
       <h4><%= @user.name if @user %></h4>
     </div>
 
-    <div class="col-lg-4">
+    <div class="span4">
       <h2>Channels</h2>
       <h4><%= "#{display_time(@session.login)} -- #{display_time(@session.logout) if @session.logout}" if @session %></h4>
     </div>
   </div>
 
   <div class="row lists">
-    <div class="users col-lg-4">
+    <div class="users span4">
       <% @users.each do |user| %>
         <p><%= link_to user.name, home_path(user_id: user.id) %></p>
       <% end %>
     </div>
 
-    <div class="sessions col-lg-4">
+    <div class="sessions span4">
       <% @sessions.each do |session| %>
         <%= link_to "#{display_time(session.login)} -- #{display_time(session.logout) if session.logout}", home_path(user_id: params[:user_id], session_id: session.id) %>
           
@@ -34,7 +34,7 @@
       <% end %>
     </div>
 
-    <div class="channels col-lg-4">
+    <div class="channels span4">
       <% @channels.each do |channel| %>
         <p><%= channel.name %></p>
       <% end %>
