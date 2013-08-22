@@ -1,5 +1,5 @@
 module UsersHelper
   def display_time(time)
-    (time + @offset).strftime("%-d %b %H:%M")
+    (time + @offset).strftime("%m/%-d %H:%M")
   end
 end

@@ -12,15 +12,23 @@ body {
   max-height:100%;
 }
 
-.container {
-  height: 80%;
+.content {
+  height: 90%;
 }
 
 .lists {
   height: 100%;
 }
 
-.users, .sessions, .channels {
+.users, .sessions, .channels, .months {
   overflow: auto;
   height: 100%;
+}
+
+.icon-chevron-right {
+  float: right;
+}
+
+.number-sessions {
+  float: right;
 }

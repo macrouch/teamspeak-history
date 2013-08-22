@@ -2,12 +2,18 @@ class Session < ActiveRecord::Base
   belongs_to :user
   has_and_belongs_to_many :channels
 
+  default_scope order('login DESC')
+
   validates :login, :idle, presence: true
 
   validate :unique_login_per_user
 
   def closed?
     logout != nil
+  end
+
+  def self.by_user_and_months_ago(user, month)
+    user.sessions.where("created_at > ? AND created_at < ?", month.months.ago.beginning_of_month, month.months.ago.end_of_month)
   end
 
   def idle_time
