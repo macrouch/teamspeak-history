@@ -1,5 +1,8 @@
 TeamspeakHistory::Application.routes.draw do
-  get "users/index", as: 'home'
+  get 'users/index', as: 'home'
+  get 'users/select_user' => 'users#select_user', as: 'select_user'
+  get 'users/select_month' => 'users#select_month', as: 'select_month'
+  get 'users/select_session' => 'users#select_session', as: 'select_session'
 
   root 'users#index'
   # The priority is based upon order of creation: first created -> highest priority.

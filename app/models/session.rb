@@ -14,7 +14,7 @@ class Session < ActiveRecord::Base
 
   def self.by_user_and_months_ago(user, month)
     if user
-      user.sessions.where("created_at > ? AND created_at < ?", month.months.ago.beginning_of_month, month.months.ago.end_of_month)
+      user.sessions.where("logout > ? AND logout < ?", month.months.ago.beginning_of_month, month.months.ago.end_of_month)
     else
       []
     end

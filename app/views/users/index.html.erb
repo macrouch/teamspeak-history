@@ -2,56 +2,21 @@
 
 <div class="content">
   <div class="row-fluid lists">
+
     <div class="users span3">
-      <ul class="nav nav-list">
-        <% @users.each do |user| %>
-          <li class="<%= @user == user ? 'active' : '' %>">
-            <%= link_to home_path(user_id: user.id) do %>
-              <i class='icon-chevron-right'></i>
-              <%= user.name %>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
+      <%= render 'users' %>
     </div>
 
     <div class="months span3">
-      <ul class="nav nav-list">
-        <% 3.times do |month| %>
-          <li class="<%= @month.to_i == month ? 'active' : '' %>">
-            <%= link_to home_path(user_id: params[:user_id], month: month)  do %>
-              <i class='icon-chevron-right'></i>
-              <%= month.months.ago.strftime("%B") %>
-              <span class="number-sessions"><%= Session.by_user_and_months_ago(@user, month).size || 0 %></span>
-            <% end %>
-          </li>
-
-        <% end %>
-      </ul>
+      <%= render 'months' if @user %>
     </div>
 
     <div class="sessions span3">
-      <ul class="nav nav-list">
-        <% @sessions.each do |session| %>
-          <li class="<%= @session == session ? 'active' : '' %>">
-            <%= link_to home_path(user_id: params[:user_id], session_id: session.id) do %>
-              <i class='icon-chevron-right'></i>
-              <%= "#{display_time(session.login)} -- #{display_time(session.logout) if session.logout}" %>
-            <% end %>
-            <ul>
-              <li>Idle time: <%= session.idle_time %></li>
-            </ul>
-          </li>
-        <% end %>
-      </ul>
+      <%= render 'sessions' if @sessions %>
     </div>
 
     <div class="channels span3">
-      <ul class="nav nav-list">
-        <% @channels.each do |channel| %>
-          <li><%= channel.name %></li>
-        <% end %>
-      </ul>
+      <%= render 'channels' if @channels %>
     </div>
 
   </div>

@@ -1,0 +1,10 @@
+<ul class="nav nav-list">
+  <% @users.each do |user| %>
+    <li id="user-<%= user.id %>" class="<%= @user == user ? 'active' : '' %>">
+      <%= link_to select_user_path(user_id: user.id), remote: true do %>
+        <i class='icon-chevron-right'></i>
+        <%= user.name %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

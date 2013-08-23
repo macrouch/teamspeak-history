@@ -1,0 +1,13 @@
+<ul class="nav nav-list">
+  <% @sessions.each do |session| %>
+    <li id="session-<%= session.id %>" class="<%= @session == session ? 'active' : '' %>">
+      <%= link_to select_session_path(user_id: params[:user_id], session_id: session.id), remote: true do %>
+        <i class='icon-chevron-right'></i>
+        <%= "#{display_time(session.login)} -- #{display_time(session.logout) if session.logout}" %>
+      <% end %>
+      <ul>
+        <li>Idle time: <%= session.idle_time %></li>
+      </ul>
+    </li>
+  <% end %>
+</ul>

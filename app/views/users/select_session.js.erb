@@ -1,0 +1,6 @@
+// update the lists
+$('div.channels').html("<%= escape_javascript(render 'channels') %>");
+
+// update the active month
+$('div.sessions li.active').removeClass('active');
+$('div.sessions li#session-<%= @session.id %>').addClass('active');

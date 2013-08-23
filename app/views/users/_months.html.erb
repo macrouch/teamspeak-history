@@ -1,0 +1,11 @@
+<ul class="nav nav-list">
+  <% 3.times do |month| %>
+    <li id="month-<%= month %>" class="<%= @month.to_i == month ? 'active' : '' %>">
+      <%= link_to select_month_path(user_id: @user.id, month: month), remote: true  do %>
+        <i class='icon-chevron-right'></i>
+        <%= month.months.ago.strftime("%B") %>
+        <span class="number-sessions"><%= Session.by_user_and_months_ago(@user, month).size || 0 %></span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
